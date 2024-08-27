@@ -11,6 +11,9 @@ pipeline {
     }
     stages {
         stage('Build') {
+            when {
+                    branch 'developer'
+            }
             steps {
                 snApplyChanges(appSysId: "${APPSYSID}", branchName: "${BRANCH}", url: "${DEVENV}", credentialsId: "${CREDENTIALS}")
                 snPublishApp(credentialsId: "${CREDENTIALS}", url: "${DEVENV}", appSysId: "${APPSYSID}",
@@ -18,6 +21,9 @@ pipeline {
             }
         }
         stage('Install') {
+             when {
+                    branch 'test'
+            }
             steps {
                 snInstallApp(credentialsId: "${CREDENTIALS}", url: "${TESTENV}", appSysId: "${APPSYSID}", baseAppAutoUpgrade: false)
                 snRunTestSuite(credentialsId: "${CREDENTIALS}", url: "${TESTENV}", testSuiteSysId: "${TESTSUITEID}", withResults: true)
