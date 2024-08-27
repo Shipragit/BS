@@ -5,8 +5,8 @@ pipeline {
     BRANCH = "${BRANCH_NAME}"
     SN_DEV_CREDENTIALS = 'Servicenow1'
     SN_QA_CREDENTIALS = 'Servicenow2'
-    AUTOMATION_ENV_1_CREDENTIALS = 'SN-Brightspeed'
-    AUTOMATION_ENV_2_CREDENTIALS = 'SN-Brightspeed-2'
+    AUTOMATION_ENV_1_CREDENTIALS = 'Servicenow1'
+    AUTOMATION_ENV_2_CREDENTIALS = 'Servicenow2'
     DEVENV = 'https://dev253989.service-now.com/'
     TESTENV = 'https://dev272155.service-now.com/'
     AUTOMATION_ENV_1 = 'https://brightspeedtsmqa1.service-now.com/'
