@@ -3,15 +3,15 @@ pipeline {
   environment {
     APPSYSID = '4f96ddd11b901e503e6ccae2604bcb1a'
     BRANCH = "${BRANCH_NAME}"
-    SN_DEV_CREDENTIALS = 'Servicenow1'
-    SN_QA_CREDENTIALS = 'Servicenow2'
+    //SN_DEV_CREDENTIALS = 'Servicenow1'
+    //SN_QA_CREDENTIALS = 'Servicenow2'
     AUTOMATION_ENV_1_CREDENTIALS = 'Servicenow1'
     AUTOMATION_ENV_2_CREDENTIALS = 'Servicenow2'
-    DEVENV = 'https://dev253989.service-now.com/'
-    TESTENV = 'https://dev272155.service-now.com/'
+    ///DEVENV = 'https://dev253989.service-now.com/'
+    //TESTENV = 'https://dev272155.service-now.com/'
     AUTOMATION_ENV_1 = 'https://brightspeedtsmqa1.service-now.com/'
     AUTOMATION_ENV_2 = 'https://brightspeedtsmqa2.service-now.com/'
-    TESTSUITEID = 'b1ae55eedb541410874fccd8139619fb'
+    //TESTSUITEID = 'b1ae55eedb541410874fccd8139619fb'
   }
   stages {
     stage('Build') {
