@@ -1,41 +1,44 @@
 pipeline {
-    agent any
-    environment {
-        BRANCH = "${BRANCH_NAME}"
-        APPSYSID = '4f96ddd11b901e503e6ccae2604bcb1a'
-        CREDENTIALS = ''
-        DEVENV = 'https://brightspeedtsmqa1.service-now.com/login.do'
-        TESTENV = 'https://testinstance.service-now.com/'
-        PRODENV = 'https://brightspeedtsmqa2.service-now.com/login.do'
-        TESTSUITEID = 'b1ae55eedb541410874fccd8139619fb'
+  agent any
+  environment {
+    APPSYSID = '4f96ddd11b901e503e6ccae2604bcb1a'
+    BRANCH = "${BRANCH_NAME}"
+    SN_DEV_CREDENTIALS = 'Servicenow1'
+    SN_QA_CREDENTIALS = 'Servicenow2'
+    AUTOMATION_ENV_1_CREDENTIALS = 'SN-Brightspeed'
+    AUTOMATION_ENV_2_CREDENTIALS = 'SN-Brightspeed-2'
+    DEVENV = 'https://dev253989.service-now.com/'
+    TESTENV = 'https://dev272155.service-now.com/'
+    AUTOMATION_ENV_1 = 'https://brightspeedtsmqa1.service-now.com/'
+    AUTOMATION_ENV_2 = 'https://brightspeedtsmqa2.service-now.com/'
+    TESTSUITEID = 'b1ae55eedb541410874fccd8139619fb'
+  }
+  stages {
+    stage('Build') {
+      when {
+        branch 'development'
+      }
+      steps {
+        snApplyChanges(appSysId: "${APPSYSID}", branchName: "${BRANCH}", url: "${AUTOMATION_ENV_1}", credentialsId: "${AUTOMATION_ENV_1_CREDENTIALS}")
+        snPublishApp(credentialsId: "${AUTOMATION_ENV_1_CREDENTIALS}", appSysId: "${APPSYSID}", obtainVersionAutomatically: true, url: "${AUTOMATION_ENV_1}")
+      }
     }
-    stages {
-        stage('Build') {
-            when {
-                    branch 'developer'
-            }
-            steps {
-                snApplyChanges(appSysId: "${APPSYSID}", branchName: "${BRANCH}", url: "${DEVENV}", credentialsId: "${CREDENTIALS}")
-                snPublishApp(credentialsId: "${CREDENTIALS}", url: "${DEVENV}", appSysId: "${APPSYSID}",
-                        isAppCustomization: true, obtainVersionAutomatically: true, incrementBy: 2)
-            }
-        }
-        stage('Install') {
-             when {
-                    branch 'test'
-            }
-            steps {
-                snInstallApp(credentialsId: "${CREDENTIALS}", url: "${TESTENV}", appSysId: "${APPSYSID}", baseAppAutoUpgrade: false)
-                snRunTestSuite(credentialsId: "${CREDENTIALS}", url: "${TESTENV}", testSuiteSysId: "${TESTSUITEID}", withResults: true)
-            }
-        }
-        stage('Deploy to Prod') {
-            when {
-                branch 'master'
-            }
-            steps {
-                snInstallApp(credentialsId: "${CREDENTIALS}", url: "${PRODENV}", appSysId: "${APPSYSID}", baseAppAutoUpgrade: false)
-            }
-        }
+    stage('Test') {
+      when {
+        branch 'qa'
+      }
+      steps {
+        snInstallApp(credentialsId: "${SN_QA_CREDENTIALS}", url: "${TESTENV}", appSysId: "${APPSYSID}")
+        snRunTestSuite(credentialsId: "${SN_QA_CREDENTIALS}", url: "${TESTENV}", testSuiteSysId: "${TESTSUITEID}", withResults: true)
+      }
     }
-}
+    stage('Deploy') {
+      when {
+        branch 'master'
+      }
+      steps {
+        snInstallApp(credentialsId: "${AUTOMATION_ENV_2_CREDENTIALS}", url: "${AUTOMATION_ENV_2}", appSysId: "${APPSYSID}")
+      }
+    }
+  }
+
