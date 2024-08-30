@@ -41,15 +41,15 @@ pipeline {
         snInstallApp(credentialsId: "${AUTOMATION_ENV_2_CREDENTIALS}", url: "${AUTOMATION_ENV_2}", appSysId: "${APPSYSID}")
       }
     }
-        stage('Rollback')
-    {
-      when {
+stage('Rollback') {
+    when {
         branch 'rollback'
-      }
-      steps
-      {
-        snRollback(url: "${AUTOMATION_ENV_2}",credentialsId: "${AUTOMATION_ENV_2_CREDENTIALS}",versionSysId: "${TARGET_VERSION}")
-      }
+    }
+    steps {
+        snRollback(
+            url: "${AUTOMATION_ENV_2}",credentialsId: "${AUTOMATION_ENV_2_CREDENTIALS}",versionSysId: "${TARGET_VERSION}",appSysId: "${APPSYSID}"
+        )
+    }
     }
   }
 }
