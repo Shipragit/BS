@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_fobr_testapp.Barnch1_0_14</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>Barnch1_0_14</name>
+        <script><![CDATA[var Barnch1_0_14 = Class.create();
+Barnch1_0_14.prototype = {
+    initialize: function() {
+    },
+    //brach1.0.14
+    type: 'Barnch1_0_14'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>shivakumara.appaji@infinite.com</sys_created_by>
+        <sys_created_on>2024-08-30 13:23:38</sys_created_on>
+        <sys_id>db0568961b1812903e6ccae2604bcbf7</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Barnch1_0_14</sys_name>
+        <sys_package display_value="TestApp" source="x_fobr_testapp">4f96ddd11b901e503e6ccae2604bcb1a</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="TestApp">4f96ddd11b901e503e6ccae2604bcb1a</sys_scope>
+        <sys_update_name>sys_script_include_db0568961b1812903e6ccae2604bcbf7</sys_update_name>
+        <sys_updated_by>shivakumara.appaji@infinite.com</sys_updated_by>
+        <sys_updated_on>2024-08-30 13:23:38</sys_updated_on>
+    </sys_script_include>
+</record_update>
