@@ -41,7 +41,7 @@ pipeline {
         snInstallApp(credentialsId: "${AUTOMATION_ENV_2_CREDENTIALS}", url: "${AUTOMATION_ENV_2}", appSysId: "${APPSYSID}")
       }
     }
- stage('Rollback') {
+ stage('rollback') {
             steps {
                 script {
                     def response = sh(script: """
