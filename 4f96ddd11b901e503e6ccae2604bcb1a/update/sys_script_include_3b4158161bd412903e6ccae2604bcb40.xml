@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_fobr_testapp.Roll_back</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>Roll_back</name>
+        <script><![CDATA[var Roll_back = Class.create();
+Roll_back.prototype = {
+    initialize: function() {
+    },
+	// Rollback changes
+    type: 'Roll_back'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>shivakumara.appaji@infinite.com</sys_created_by>
+        <sys_created_on>2024-08-30 11:57:09</sys_created_on>
+        <sys_id>3b4158161bd412903e6ccae2604bcb40</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Roll_back</sys_name>
+        <sys_package display_value="TestApp" source="x_fobr_testapp">4f96ddd11b901e503e6ccae2604bcb1a</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="TestApp">4f96ddd11b901e503e6ccae2604bcb1a</sys_scope>
+        <sys_update_name>sys_script_include_3b4158161bd412903e6ccae2604bcb40</sys_update_name>
+        <sys_updated_by>shivakumara.appaji@infinite.com</sys_updated_by>
+        <sys_updated_on>2024-08-30 11:57:09</sys_updated_on>
+    </sys_script_include>
+</record_update>
