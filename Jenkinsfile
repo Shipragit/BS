@@ -12,6 +12,7 @@ pipeline {
     AUTOMATION_ENV_1 = 'https://brightspeedtsmqa1.service-now.com/'
     AUTOMATION_ENV_2 = 'https://brightspeedtsmqa2.service-now.com/'
     //TESTSUITEID = 'b1ae55eedb541410874fccd8139619fb'
+    TARGET_VERSION = '1.0.8'
   }
   stages {
     stage('Build') {
@@ -38,6 +39,16 @@ pipeline {
       }
       steps {
         snInstallApp(credentialsId: "${AUTOMATION_ENV_2_CREDENTIALS}", url: "${AUTOMATION_ENV_2}", appSysId: "${APPSYSID}")
+      }
+    }
+        stage('Rollback')
+    {
+      when {
+        branch 'rollback'
+      }
+      steps
+      {
+        snRollback(url: "${AUTOMATION_ENV_2}",credentialsId: "${AUTOMATION_ENV_2_CREDENTIALS}",versionSysId: "${TARGET_VERSION}")
       }
     }
   }
