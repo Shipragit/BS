@@ -41,16 +41,20 @@ pipeline {
         snInstallApp(credentialsId: "${AUTOMATION_ENV_2_CREDENTIALS}", url: "${AUTOMATION_ENV_2}", appSysId: "${APPSYSID}")
       }
     }
-stage('Rollback') {
-    when {
-        branch 'rollback'
-    }
-    steps {
-        snRollback(
-            url: "${AUTOMATION_ENV_2}",credentialsId: "${AUTOMATION_ENV_2_CREDENTIALS}",versionSysId: "${TARGET_VERSION}",appSysId: "${APPSYSID}"
-        )
-    }
-    }
+ stage('Rollback') {
+            steps {
+                script {
+                    def response = sh(script: """
+                        curl -X POST ${env.AUTOMATION_ENV_2} \
+                        -u ${env.AUTOMATION_ENV_2_CREDENTIALS} \
+                        -H 'Content-Type: application/json' \
+                        -d '{"rollback": true}'
+                    """, returnStdout: true).trim()
+                    
+                    echo "Rollback Response: ${response}"
+                }
+            }
+        }
   }
 }
 
