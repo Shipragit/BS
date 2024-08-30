@@ -47,7 +47,7 @@ stage('Rollback') {
     }
     steps {
         snRollback(
-            url: "${AUTOMATION_ENV_2}",credentialsId: "${AUTOMATION_ENV_2_CREDENTIALS}",versionSysId: "${TARGET_VERSION}",appSysId: "${APPSYSID}"
+            url: "${AUTOMATION_ENV_2}",credentialsId: "${AUTOMATION_ENV_2_CREDENTIALS}",rollbackAppVersion: "${TARGET_VERSION}",appSysId: "${APPSYSID}"
         )
     }
     }
