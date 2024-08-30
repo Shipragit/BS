@@ -35,7 +35,7 @@ pipeline {
     }
     stage('Deploy') {
       when {
-        branch 'master'
+        branch 'main'
       }
       steps {
         snInstallApp(credentialsId: "${AUTOMATION_ENV_2_CREDENTIALS}", url: "${AUTOMATION_ENV_2}", appSysId: "${APPSYSID}")
