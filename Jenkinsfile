@@ -44,7 +44,7 @@ pipeline {
         script {
           def response = sh(script: """
             curl -X POST "${env.AUTOMATION_ENV_2}/api/now/table/your_table" \
-            -u "${env.AUTOMATION_ENV_2_CREDENTIALS}" \
+            -u "${env.AUTOMATION_ENV_2}:${env.AUTOMATION_ENV_2_CREDENTIALS}" \
             -H 'Content-Type: application/json' \
             -d '{ "rollback": true, "appSysId": "${env.APPSYSID}" }'
           """, returnStdout: true).trim()
