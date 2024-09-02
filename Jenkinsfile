@@ -3,15 +3,10 @@ pipeline {
   environment {
     APPSYSID = '4f96ddd11b901e503e6ccae2604bcb1a'
     BRANCH = "${BRANCH_NAME}"
-    //SN_DEV_CREDENTIALS = 'Servicenow1'
-    //SN_QA_CREDENTIALS = 'Servicenow2'
     AUTOMATION_ENV_1_CREDENTIALS = 'Servicenow1'
     AUTOMATION_ENV_2_CREDENTIALS = 'Servicenow2'
-    //DEVENV = 'https://dev253989.service-now.com/'
-    //TESTENV = 'https://dev272155.service-now.com/'
     AUTOMATION_ENV_1 = 'https://brightspeedtsmqa1.service-now.com/'
     AUTOMATION_ENV_2 = 'https://brightspeedtsmqa2.service-now.com/'
-    //TESTSUITEID = 'b1ae55eedb541410874fccd8139619fb'
     TARGET_VERSION = '1.0.8'
   }
   stages {
@@ -29,8 +24,8 @@ pipeline {
         branch 'qa'
       }
       steps {
-        snInstallApp(credentialsId: "${SN_QA_CREDENTIALS}", url: "${TESTENV}", appSysId: "${APPSYSID}")
-        snRunTestSuite(credentialsId: "${SN_QA_CREDENTIALS}", url: "${TESTENV}", testSuiteSysId: "${TESTSUITEID}", withResults: true)
+        snInstallApp(credentialsId: "${AUTOMATION_ENV_1_CREDENTIALS}", url: "${AUTOMATION_ENV_1}", appSysId: "${APPSYSID}")
+        snRunTestSuite(credentialsId: "${AUTOMATION_ENV_1_CREDENTIALS}", url: "${AUTOMATION_ENV_1}", testSuiteSysId: "${TESTSUITEID}", withResults: true)
       }
     }
     stage('Deploy') {
@@ -41,20 +36,22 @@ pipeline {
         snInstallApp(credentialsId: "${AUTOMATION_ENV_2_CREDENTIALS}", url: "${AUTOMATION_ENV_2}", appSysId: "${APPSYSID}")
       }
     }
- stage('rollback') {
-            steps {
-                script {
-                    def response = sh(script: """
-                        curl -X POST ${env.AUTOMATION_ENV_2} \
-                        -u ${env.AUTOMATION_ENV_2_CREDENTIALS} \
-                        -H 'Content-Type: application/json' \
-                        -d '{"rollback": true}'
-                    """, returnStdout: true).trim()
-                    
-                    echo "Rollback Response: ${response}"
-                }
-            }
+    stage('Rollback') {
+      when {
+        branch 'rollback'
+      }
+      steps {
+        script {
+          def response = sh(script: """
+            curl -X POST "${env.AUTOMATION_ENV_2}/api/now/table/your_table" \
+            -u "${env.AUTOMATION_ENV_2_CREDENTIALS}" \
+            -H 'Content-Type: application/json' \
+            -d '{ "rollback": true, "appSysId": "${env.APPSYSID}" }'
+          """, returnStdout: true).trim()
+
+          echo "Rollback Response: ${response}"
         }
+      }
+    }
   }
 }
-
